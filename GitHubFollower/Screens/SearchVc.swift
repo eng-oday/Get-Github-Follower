@@ -32,7 +32,7 @@ class SearchVc: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.isNavigationBarHidden = true
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     func CreateDismissKeyboardTapGesture(){
@@ -93,7 +93,12 @@ class SearchVc: UIViewController {
         
         if isUserNameEmpty{
     
-            presentGFalertOnMainThread(title: "unvaild user name", message: "please enter user name we need to know who look for 😡.", buttonTitle: "OK")
+            presentGFalertOnMainThread(
+                title: "unvaild user name",
+                message: "please enter user name we need to know who look for 😡.",
+                buttonTitle: "OK"
+            )
+        
         }
         else
         {
@@ -101,7 +106,6 @@ class SearchVc: UIViewController {
             followerVc.username                                 = userNameTextField.text
             followerVc.title                                    = userNameTextField.text
             followerVc.navigationItem.largeTitleDisplayMode     = .always
-            
             navigationController?.pushViewController(followerVc, animated: true)
         }
         
@@ -117,9 +121,6 @@ extension SearchVc : UITextFieldDelegate {
      PushFollowerListVc()
         return true
     }
-    
-    
-    
     
     
 }

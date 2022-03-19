@@ -14,10 +14,13 @@ class GFItemInfoVC: UIViewController {
     let itemInfoTwo = GFItemInfoView()
     let actionButton = GFButton()
     
+    var delegate:UserInfoVCDelegate!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
+        configureActionBtn()
         LayoutUI()
         configureStackView()
         
@@ -30,6 +33,15 @@ class GFItemInfoVC: UIViewController {
         view.layer.cornerRadius = 18
         
     }
+    
+    func configureActionBtn(){
+        
+        actionButton.addTarget(self, action: #selector(actionBtnDidTapped), for: .touchUpInside)
+        
+    }
+    
+    @objc func actionBtnDidTapped(){}
+    
     
 
     private func LayoutUI(){
@@ -49,7 +61,7 @@ class GFItemInfoVC: UIViewController {
             stackView.heightAnchor.constraint(equalToConstant: 50),
             
             
-            actionButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: padding),
+            actionButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -padding),
             actionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             actionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             actionButton.heightAnchor.constraint(equalToConstant: 44)

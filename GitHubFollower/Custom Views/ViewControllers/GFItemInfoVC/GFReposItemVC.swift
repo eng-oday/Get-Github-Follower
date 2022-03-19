@@ -14,6 +14,7 @@ class GFReposItemVC:GFItemInfoVC {
  
     override func viewDidLoad() {
         super.viewDidLoad()
+        configure()
         
     }
     init(user:User) {
@@ -24,6 +25,13 @@ class GFReposItemVC:GFItemInfoVC {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func actionBtnDidTapped() {
+        
+        delegate.didTapGithubProfileItem(user: user)
+    }
+    
+   
     
     
    private func configure(){

@@ -8,28 +8,16 @@
 import UIKit
 
 
-
-//public func setNavigationBarCorrectly(navigationContrroler : UINavigationController ){
-//
+public  func setNavigationBarCorrectly(){
+    
 //    let navBarApperance = UINavigationBarAppearance()
 //
 //    navBarApperance.configureWithOpaqueBackground()
 //    navBarApperance.backgroundColor = UIColor.systemBackground
-//    //navigationContrroler.navigationBar.scrollEdgeAppearance = navBarApperance
-//    navigationContrroler.navigationBar.standardAppearance = navBarApperance
-//    navigationContrroler.navigationBar.tintColor = .systemGreen
-//
-//}
-
-public func setNavigationBarCorrectly(){
-    
-    let navBarApperance = UINavigationBarAppearance()
-    
-    navBarApperance.configureWithOpaqueBackground()
-    navBarApperance.backgroundColor = UIColor.systemBackground
-    //navigationContrroler.navigationBar.scrollEdgeAppearance = navBarApperance
-    UINavigationBar.appearance().standardAppearance = navBarApperance
+//    UINavigationBar.appearance().standardAppearance = navBarApperance
+//    UINavigationBar.appearance().backgroundColor = .systemGray6
     UINavigationBar.appearance().tintColor = .systemGreen
+    
    
 }
 
@@ -37,7 +25,7 @@ public func setNavigationBarCorrectly(){
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
             
         guard let WindowScene = (scene as? UIWindowScene) else { return }
@@ -45,18 +33,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //to create initial window and set frame size
         window = UIWindow(frame: WindowScene.coordinateSpace.bounds)
         window?.windowScene = WindowScene
+        setNavigationBarCorrectly()
         window?.rootViewController = CreateTabBar()
         window?.makeKeyAndVisible()
-        setNavigationBarCorrectly()
+      
 
-        
-        
     }
     
     func CreateSearchNC()->UINavigationController{
 
         let searchVc = SearchVc()
         searchVc.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
+        
+        
         let searchNavigation = UINavigationController(rootViewController: searchVc)
         searchNavigation.navigationItem.titleView?.tintColor = .systemBackground
         
@@ -78,17 +67,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return favoritesNavigation
 
     }
-    
-  // to set navigation bar correctly with safe area
-    
-            //let navBarAppearance = UINavigationBarAppearance()
-            //favoritesNavigation.navigationBar.scrollEdgeAppearance = navBarAppearance
-            //navBarAppearance.configureWithOpaqueBackground()
-            // navBarAppearance.backgroundColor = UIColor.systemGray4
-    
-    
 
-    
     func CreateTabBar()-> UITabBarController{
 
         let tabbar = UITabBarController()
