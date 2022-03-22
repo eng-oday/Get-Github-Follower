@@ -18,7 +18,7 @@ struct User:Codable {
     let public_gists:Int
     let followers:Int
     let following:Int
-    let created_at:String
+    let created_at:Date
     
     
 }

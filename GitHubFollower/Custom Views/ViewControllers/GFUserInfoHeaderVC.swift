@@ -40,13 +40,8 @@ class GFUserInfoHeaderVC: UIViewController {
     
     private func addSubViews(){
         
-        view.addSubview(avatarImageView)
-        view.addSubview(userNameLabel)
-        view.addSubview(nameLabel)
-        view.addSubview(locationImageView)
-        view.addSubview(locationLabel)
-        view.addSubview(bioLabel)
-        
+        view.addSubviews(avatarImageView,userNameLabel,nameLabel,locationImageView,locationLabel,bioLabel)
+  
     }
     
     private func ConfigurUserUI(){
@@ -54,7 +49,7 @@ class GFUserInfoHeaderVC: UIViewController {
         userNameLabel.text              = user.login
         nameLabel.text                  = user.name ?? ""
         locationLabel.text              =   user.location ?? "NO LOCATION"
-        locationImageView.image         = UIImage(systemName: SFSymbols.location)
+        locationImageView.image         = SFSymbols.location
         locationImageView.tintColor     = .secondaryLabel
         bioLabel.text                   = user.bio ?? "No Bio available"
         bioLabel.numberOfLines          = 3

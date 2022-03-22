@@ -18,7 +18,6 @@ public  func setNavigationBarCorrectly(){
 //    UINavigationBar.appearance().backgroundColor = .systemGray6
     UINavigationBar.appearance().tintColor = .systemGreen
     
-   
 }
 
 
@@ -34,53 +33,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: WindowScene.coordinateSpace.bounds)
         window?.windowScene = WindowScene
         setNavigationBarCorrectly()
-        window?.rootViewController = CreateTabBar()
+        window?.rootViewController = GFTabBarController()
         window?.makeKeyAndVisible()
       
 
     }
-    
-    func CreateSearchNC()->UINavigationController{
-
-        let searchVc = SearchVc()
-        searchVc.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
-        
-        
-        let searchNavigation = UINavigationController(rootViewController: searchVc)
-        searchNavigation.navigationItem.titleView?.tintColor = .systemBackground
-        
-        return searchNavigation
-
-    }
-
-    func CreateFavoriteListNC()->UINavigationController{
-
-        let favoriteList = FavoritesListVc()
-        favoriteList.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
-
-        
-        let favoritesNavigation = UINavigationController(rootViewController: favoriteList)
-        favoritesNavigation.navigationItem.titleView?.tintColor = .systemBackground
-        favoritesNavigation.navigationItem.largeTitleDisplayMode = .always
-        favoritesNavigation.navigationBar.prefersLargeTitles = true
-
-        return favoritesNavigation
-
-    }
-
-    func CreateTabBar()-> UITabBarController{
-
-        let tabbar = UITabBarController()
-        UITabBar.appearance().tintColor = .systemGreen
-        tabbar.tabBar.backgroundColor = .systemBackground
-        
-        tabbar.viewControllers = [CreateSearchNC(),CreateFavoriteListNC()]
-
-        return tabbar
-
-
-    }
-    
     
     
 

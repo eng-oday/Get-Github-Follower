@@ -7,6 +7,15 @@
 
 import UIKit
 
+
+
+protocol GFItemInfoVCDelegate: AnyObject {
+    
+    func didTapGithubProfileItem(user:User)
+    func didTapGetFollowerItem(user:User)
+    
+}
+
 class GFItemInfoVC: UIViewController {
 
     let stackView = UIStackView()
@@ -14,7 +23,7 @@ class GFItemInfoVC: UIViewController {
     let itemInfoTwo = GFItemInfoView()
     let actionButton = GFButton()
     
-    var delegate:UserInfoVCDelegate!
+    var delegate:GFItemInfoVCDelegate!
     
     
     override func viewDidLoad() {
@@ -45,10 +54,8 @@ class GFItemInfoVC: UIViewController {
     
 
     private func LayoutUI(){
-        
-        view.addSubview(stackView)
-        view.addSubview(actionButton)
-        
+        view.addSubviews(stackView,actionButton)
+
         stackView.translatesAutoresizingMaskIntoConstraints = false
         let padding:CGFloat = 20
         
@@ -77,8 +84,6 @@ class GFItemInfoVC: UIViewController {
         
         stackView.addArrangedSubview(itemInfoOne)
         stackView.addArrangedSubview(itemInfoTwo)
-        
-        
         
     }
     

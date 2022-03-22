@@ -33,10 +33,10 @@ class FavoriteTableViewCell: UITableViewCell {
     func Set(for username: String , imageUrl: String )
     {
 
-        NetworkManager.shared.downloadImageView(from:imageUrl) { [weak self]result in
+        NetworkManager.shared.downloadImageView(from:imageUrl) { [weak self] image  in
             guard let self = self else {return}
             DispatchQueue.main.async {
-                self.profileImage.image = result
+                self.profileImage.image = image
             }
         }
         userLabel.text = username
@@ -45,9 +45,8 @@ class FavoriteTableViewCell: UITableViewCell {
     }
     
     func configure(){
-        
-        addSubview(profileImage)
-        addSubview(userLabel)
+        addSubviews(profileImage,userLabel)
+   
         
         accessoryType = .disclosureIndicator
         

@@ -8,11 +8,7 @@
 import UIKit
 
 
-protocol FollowerListVcDelegate: AnyObject{
-    
-    
-    func didRequestFollower(with userName:String)
-}
+
 
 
 class FollowerListVc: UIViewController {
@@ -32,8 +28,19 @@ class FollowerListVc: UIViewController {
     var filtteredFollower:[Follower] = []
     var page: Int = 1
     var IsHaveMoreFollower = true
+    var isLoadingMoreFollower = false
     var isSearching = false
     let favoriteVc = FavoritesListVc()
+    
+    init(userName:String) {
+        super.init(nibName: nil, bundle: nil)
+        self.username = userName
+        title = username
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,6 +70,7 @@ class FollowerListVc: UIViewController {
     func GetFollower(for username:String , page: Int)
     {
         ShowLoadingView()
+        isLoadingMoreFollower = true
         NetworkManager.shared.GetFollowers(for: username, page: page) { [weak self] result in
             guard let self = self else {return}
             self.DismissLoadingView()
@@ -83,6 +91,7 @@ class FollowerListVc: UIViewController {
                 case .failure(let errorMessage):
                     self.presentGFalertOnMainThread(title: "OOPS..", message: errorMessage.rawValue, buttonTitle: "OK")
                 }
+                self.isLoadingMoreFollower = false
             }
             
         }
@@ -161,11 +170,8 @@ class FollowerListVc: UIViewController {
     
     func ConfigureSearchBar(){
         
-        searchController.searchBar.delegate = self
         searchController.searchResultsUpdater = self
-        
         searchController.searchBar.placeholder = "Search For Users."
-        
         navigationItem.searchController = searchController
         
         
@@ -184,7 +190,7 @@ extension FollowerListVc : UICollectionViewDelegate {
         
         // it become true when scroll arrive to end of collection
         if offsetY > contentHeight - height {
-            guard IsHaveMoreFollower else {
+            guard IsHaveMoreFollower, !isLoadingMoreFollower else {
                 return
             }
             page += 1
@@ -213,12 +219,18 @@ extension FollowerListVc : UICollectionViewDelegate {
     
 }
 
-extension FollowerListVc : UISearchResultsUpdating,UISearchBarDelegate {
+extension FollowerListVc : UISearchResultsUpdating {
     
     
     func updateSearchResults(for searchController: UISearchController) {
         
-        guard let filter = searchController.searchBar.text , !filter.isEmpty else {return}
+        guard let filter = searchController.searchBar.text , !filter.isEmpty else {
+            updateData(on: followers)
+            filtteredFollower.removeAll()
+            isSearching = false
+            return
+            
+        }
         
         isSearching = true
         filtteredFollower = followers.filter({
@@ -229,18 +241,12 @@ extension FollowerListVc : UISearchResultsUpdating,UISearchBarDelegate {
         
         updateData(on: filtteredFollower)
         
-        
     }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        isSearching = false
-        updateData(on: followers)
-    }
-    
+
     
 }
 
-extension FollowerListVc:FollowerListVcDelegate {
+extension FollowerListVc:UserInfoVCDelegate {
     
     
     func didRequestFollower(with userName: String) {
@@ -251,9 +257,7 @@ extension FollowerListVc:FollowerListVcDelegate {
         followers.removeAll()
         filtteredFollower.removeAll()
         searchController.searchBar.text = nil
-        DispatchQueue.main.async {
-            self.collectionView.setContentOffset(.zero, animated: false)
-        }
+        self.collectionView.scrollToItem(at: IndexPath.init(item: 0, section: 0), at: .top, animated: true)
         GetFollower(for: userName, page: page)
         
             }

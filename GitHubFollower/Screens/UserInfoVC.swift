@@ -9,11 +9,12 @@ import UIKit
 import SafariServices
 
 
-protocol UserInfoVCDelegate: AnyObject {
+
+
+protocol UserInfoVCDelegate: AnyObject{
     
-    func didTapGithubProfileItem(user:User)
-    func didTapGetFollowerItem(user:User)
     
+    func didRequestFollower(with userName:String)
 }
 
 class UserInfoVC: UIViewController {
@@ -24,7 +25,7 @@ class UserInfoVC: UIViewController {
     let date = GFBodyLabel(textAlignment: .center)
     var itemViews:[UIView] = []
     var username:String!
-    weak var delegate:FollowerListVcDelegate!
+    weak var delegate:UserInfoVCDelegate!
     
     
     override func viewDidLoad() {
@@ -82,7 +83,7 @@ class UserInfoVC: UIViewController {
         self.AddVCToContainer(childVC: GFUserInfoHeaderVC(user: user), to: self.headerView)
         self.AddVCToContainer(childVC: repoItemVC, to: self.itemViewOne)
         self.AddVCToContainer(childVC: followerItemVC, to: self.itemViewTwo)
-        self.date.text = "GithHub since \(user.created_at.DisplaylyDateInCorrectFormat())"
+        self.date.text = "GithHub since \(user.created_at.ConvertToMonthYearFormat())"
     }
     
     
@@ -135,8 +136,8 @@ class UserInfoVC: UIViewController {
 }
 
 
-extension UserInfoVC: UserInfoVCDelegate {
-    
+extension UserInfoVC: GFItemInfoVCDelegate {
+ 
     func didTapGithubProfileItem(user: User) {
         guard let url = URL(string: user.html_url) else {
             presentGFalertOnMainThread(title: "Invalid URL", message: "The url Attached to this user is invalid.", buttonTitle: "ok")

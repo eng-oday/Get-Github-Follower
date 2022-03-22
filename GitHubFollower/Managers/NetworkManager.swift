@@ -54,7 +54,6 @@ class NetworkManager {
                 completion(.failure(.invalidData))
 
             }
-            
         }
         
         task.resume()
@@ -91,6 +90,9 @@ class NetworkManager {
             
             do{
                 let decoder = JSONDecoder()
+                // to get date as date from server not string 
+                decoder.dateDecodingStrategy = .iso8601
+                
                 let user = try decoder.decode(User.self, from: data)
                 
                 completion(.success(user))
@@ -107,26 +109,34 @@ class NetworkManager {
     }
     
     
-    func downloadImageView(from StringURL: String , completion: @escaping (UIImage)->Void){
+    func downloadImageView(from StringURL: String , completion: @escaping (UIImage?)->Void){
         
+        // to check if image cahsed before dont download it aggain
         let cahseKey = NSString(string: StringURL)
         
-        guard let url = URL(string: StringURL) else {return}
+        if let image = cashe.object(forKey: cahseKey) {
+            completion(image)
+            return
+        }
+        guard let url = URL(string: StringURL) else {
+            completion(nil)
+            return
+            
+        }
         
         let task = URLSession.shared.dataTask(with: url) {[weak self] data, response, error in
             
-            guard let self = self else {return}
-            guard let data = data , error == nil , let response = response as? HTTPURLResponse , response.statusCode == 200 else
-            {
-                return
+            guard let self = self , let data = data , error == nil , let response = response as? HTTPURLResponse , response.statusCode == 200 else {
+                return completion(nil)
             }
             
             guard let image = UIImage(data: data) else {
-                return
+                return completion(nil)
             }
             // if u download image cashe it
-            completion(image)
             self.cashe.setObject(image, forKey: cahseKey)
+            completion(image)
+
                 
         }
         task.resume()

@@ -9,7 +9,7 @@ import UIKit
 
 class GFAlertVC: UIViewController {
     
-    let container = UIView()
+    let container = GFALertContainerView()
     let AlertTitleLabel = GFTittleLabel(textAlignment: .center, fontSize: 20)
     let AlertMessageLabel = GFBodyLabel(textAlignment: .center)
     let ActionButton = GFButton(backGroundColor: .systemPink, Tittle: "ok")
@@ -35,7 +35,8 @@ class GFAlertVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.75)
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.75)
+        view.addSubviews(container,AlertTitleLabel,ActionButton,AlertMessageLabel)
         ConfigureContainerView()
         ConfigureTittleLabel()
         ConfigureActionButton()
@@ -44,14 +45,7 @@ class GFAlertVC: UIViewController {
     
     private func ConfigureContainerView(){
         
-        view.addSubview(container)
-        
-        container.layer.cornerRadius         = 16
-        container.layer.borderWidth          = 2
-        container.layer.borderColor          = UIColor.white.cgColor
-        container.translatesAutoresizingMaskIntoConstraints = false
-        container.backgroundColor = .systemBackground
-        
+
         NSLayoutConstraint.activate([
         
             container.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -65,7 +59,6 @@ class GFAlertVC: UIViewController {
     
     private func ConfigureTittleLabel(){
         
-        container.addSubview(AlertTitleLabel)
         AlertTitleLabel.text = alertTittle ?? "Something Went Wrong ...."
       
         
@@ -79,7 +72,6 @@ class GFAlertVC: UIViewController {
     
     private func ConfigureActionButton(){
         
-        container.addSubview(ActionButton)
         ActionButton.setTitle(buttonTittle ?? "OK", for: .normal)
         ActionButton.addTarget(self, action: #selector(dismissVC), for: .touchUpInside)
         
@@ -93,7 +85,6 @@ class GFAlertVC: UIViewController {
     
     private func ConfigureMessageLabel(){
         
-        container.addSubview(AlertMessageLabel)
         AlertMessageLabel.text = mesasge ?? "Unable To complete request ..."
         AlertMessageLabel.numberOfLines = 4
         

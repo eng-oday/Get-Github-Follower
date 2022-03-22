@@ -13,7 +13,7 @@ class FavoritesListVc: UIViewController {
     let tableView = UITableView()
     var favoritedFollowers:[Follower] = []
    
-    weak var delegate:FollowerListVcDelegate?
+    weak var delegate:UserInfoVCDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,10 +98,9 @@ extension FavoritesListVc:UITableViewDelegate , UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
-        let favoriteInIndex = favoritedFollowers[indexPath.row].login
-        let followerVC = FollowerListVc()
-        followerVC.username = favoriteInIndex
-        followerVC.title = favoriteInIndex
+        let favorite = favoritedFollowers[indexPath.row]
+        let followerVC = FollowerListVc(userName: favorite.login)
+    
         navigationController?.pushViewController(followerVC, animated: true)
                 
     }

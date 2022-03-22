@@ -8,7 +8,9 @@
 import UIKit
 
 
-struct UiHelper {
+//السبب اني مش عامله استركت علشان مقدرش آكريت منه اوبجكت فاضي من غير ماستخدمه لكن كده طلاما هعمله آكسس يبقي هتسخدمه
+
+enum UiHelper {
     
     static func createThreeColumnFlowLayout(for view:UIView)-> UICollectionViewFlowLayout{
         

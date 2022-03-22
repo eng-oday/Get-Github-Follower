@@ -9,8 +9,7 @@ import UIKit
 
 class GFImageView: UIImageView {
     
-    let imagePlaceHolder    = UIImage(named: "avatar-placeholder")
-    let cahse               = NetworkManager.shared.cashe
+    let imagePlaceHolder    = Images.placeholder
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,13 +34,6 @@ class GFImageView: UIImageView {
     
     func getimage(from imageURL:String){
         
-        // to check if image cahsed before dont download it aggain
-        let cahseKey = NSString(string: imageURL)
-        
-        if let image = cahse.object(forKey: cahseKey) {
-            self.image = image
-            return
-        }
         NetworkManager.shared.downloadImageView(from: imageURL) { [weak self] image in
             guard let self = self else {return}
             DispatchQueue.main.async {self.image = image}

@@ -21,6 +21,7 @@ class SearchVc: UIViewController {
         super.viewDidLoad()
         title = "Search"
         view.backgroundColor = .systemBackground
+        view.addSubviews(logoImageView,userNameTextField,callToActionBtn)
         ConfigureLogoImageView()
         ConfigureTextField()
         configureGFButton()
@@ -31,7 +32,7 @@ class SearchVc: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        userNameTextField.text = ""
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
@@ -44,9 +45,8 @@ class SearchVc: UIViewController {
     
     func ConfigureLogoImageView(){
         
-        view.addSubview(logoImageView)
         logoImageView.translatesAutoresizingMaskIntoConstraints     = false
-        logoImageView.image                                         = UIImage(named: "gh-logo")
+        logoImageView.image                                         = Images.ghLogo
         
         //set constraints to logo image
         NSLayoutConstraint.activate([
@@ -60,7 +60,6 @@ class SearchVc: UIViewController {
     
     func ConfigureTextField(){
         
-        view.addSubview(userNameTextField)
         userNameTextField.delegate = self
         
         NSLayoutConstraint.activate([
@@ -74,7 +73,6 @@ class SearchVc: UIViewController {
     
     func configureGFButton(){
         
-        view.addSubview(callToActionBtn)
         
         callToActionBtn.addTarget(self, action: #selector(PushFollowerListVc), for: .touchUpInside)
 
@@ -102,9 +100,8 @@ class SearchVc: UIViewController {
         }
         else
         {
-            let followerVc                                      = FollowerListVc()
-            followerVc.username                                 = userNameTextField.text
-            followerVc.title                                    = userNameTextField.text
+            userNameTextField.resignFirstResponder()
+            let followerVc                                      = FollowerListVc(userName: userNameTextField.text!)
             followerVc.navigationItem.largeTitleDisplayMode     = .always
             navigationController?.pushViewController(followerVc, animated: true)
         }

@@ -20,11 +20,10 @@ class GFButton: UIButton {
     }
     
     
-    init(backGroundColor:UIColor,Tittle:String){
-        super.init(frame: .zero)
+    convenience init(backGroundColor:UIColor,Tittle:String){
+        self.init(frame: .zero)
         self.backgroundColor = backGroundColor
         self.setTitle(Tittle, for: .normal)
-        Configure()
         
     }
     

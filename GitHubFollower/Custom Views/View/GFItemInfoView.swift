@@ -35,9 +35,9 @@ class GFItemInfoView: UIView {
     
     private  func configure(){
         
-        addSubview(itemImageView)
-        addSubview(itemLable)
-        addSubview(countLabel)
+        addSubviews(itemImageView,itemLable,countLabel)
+
+
         
         itemImageView.translatesAutoresizingMaskIntoConstraints = false
         itemImageView.tintColor = .label
@@ -72,16 +72,16 @@ class GFItemInfoView: UIView {
         
         switch itemInfoType {
         case .repos:
-            itemImageView.image = UIImage(systemName: SFSymbols.repos)
+            itemImageView.image = SFSymbols.repos
             itemLable.text = "Public Repos"
         case .gists:
-            itemImageView.image = UIImage(systemName: SFSymbols.gists)
+            itemImageView.image =  SFSymbols.gists
             itemLable.text = "Public Gists"
         case .follower:
-            itemImageView.image = UIImage(systemName: SFSymbols.follower)
+            itemImageView.image =  SFSymbols.follower
             itemLable.text = "Follower"
         case .following:
-            itemImageView.image = UIImage(systemName: SFSymbols.following)
+            itemImageView.image =  SFSymbols.following
             itemLable.text = "Following"
         }
         countLabel.text = String(count)
